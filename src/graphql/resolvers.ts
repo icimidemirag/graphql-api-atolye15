@@ -56,6 +56,7 @@ const resolvers = {
             comment.comments.push(comment);
           }
         });
+        addCommentToCommentHandler(x.parentId, x.content);
         comments.push(comment);
         return comment;
       } catch (error) {
@@ -152,5 +153,24 @@ const resolvers = {
     },
   },
 };
+
+const addCommentToCommentHandler = (parentId: string, content: string ) => {
+    posts.forEach((post:Post) => {
+      if (post.id === parentId) {
+        addCommentToCommentHandler(post.id, post.content);
+        const now = new Date();
+        const comment: Comment = {
+          parentId: parentId,
+          id: (comments.length + 1).toLocaleString() + "c",
+          content: content,
+          createdDate: now.toLocaleString(),
+          reactions: [],
+          comments: [],
+        };
+        post.comments.push(comment);
+        return comment;
+      }
+    });
+}
 
 export default resolvers;
