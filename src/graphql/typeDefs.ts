@@ -38,4 +38,5 @@ type Mutation {
   addReactionToPost(postId: ID!, reactionType: String!): Reaction!
 }
 `;
+
 export default typeDefs;
